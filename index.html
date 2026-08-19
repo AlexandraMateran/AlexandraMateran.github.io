@@ -1,172 +1,662 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Alexandra Materan | QA Engineer</title>
-
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --bg: #0D0F14;
+      --surface: #151820;
+      --border: #1E2330;
+      --accent: #4DFFA4;
+      --accent-dim: rgba(77,255,164,0.12);
+      --accent-glow: rgba(77,255,164,0.06);
+      --text: #E8EAF0;
+      --text-muted: #6B7280;
+      --text-dim: #9CA3AF;
+      --tag-bg: #1A2235;
+      --tag-text: #64B5F6;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #0f172a;
-      color: #e2e8f0;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 40px 20px;
-    }
-
-    h1 {
-      font-size: 36px;
-      margin-bottom: 5px;
-    }
-
-    h2 {
-      color: #94a3b8;
-      font-weight: normal;
-      margin-bottom: 20px;
-    }
-
-    p {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
       line-height: 1.6;
-      margin-bottom: 30px;
+      min-height: 100vh;
     }
 
-    .buttons a {
-      display: inline-block;
-      margin: 5px;
-      padding: 10px 18px;
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(13,15,20,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
       text-decoration: none;
-      border-radius: 6px;
-      border: 1px solid #38bdf8;
-      color: #38bdf8;
-      transition: 0.3s;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
     }
 
-    .buttons a:hover {
-      background: #38bdf8;
-      color: #0f172a;
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 2rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
     }
 
-    .section {
-      margin-top: 50px;
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
     }
 
-    .skills span {
+    .hero-eyebrow::before {
+      content: '';
       display: inline-block;
-      background: #1e293b;
-      padding: 8px 12px;
-      margin: 5px;
-      border-radius: 5px;
-      font-size: 14px;
+      width: 2rem;
+      height: 1px;
+      background: var(--accent);
     }
 
-    .project {
-      background: #1e293b;
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
+    .hero-name {
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
     }
 
-    .footer {
-      margin-top: 60px;
-      font-size: 14px;
-      color: #64748b;
+    .hero-name span {
+      color: var(--accent);
+    }
+
+    .hero-role {
+      font-family: 'DM Mono', monospace;
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+
+    .hero-bio {
+      font-size: 1.1rem;
+      color: var(--text-dim);
+      max-width: 620px;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-bio strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0D0F14;
+    }
+
+    .btn-primary:hover {
+      background: #6FFFB8;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      background: transparent;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    /* SECTIONS */
+    section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 1.5rem;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .section-title {
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+    }
+
+    /* SKILLS */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .skill-card:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .skill-card-title {
+      font-size: 0.75rem;
+      font-family: 'DM Mono', monospace;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      font-size: 0.78rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 4px;
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* PROJECTS */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .project-number {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+    }
+
+    .project-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.01em;
+    }
+
+    .project-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-family: 'DM Mono', monospace;
+    }
+
+    .project-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 640px) {
+      .project-body { grid-template-columns: 1fr; }
+    }
+
+    .project-block-label {
+      font-size: 0.7rem;
+      font-family: 'DM Mono', monospace;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-block-text {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+    }
+
+    .project-footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .project-tag {
+      background: var(--accent-dim);
+      color: var(--accent);
+      font-size: 0.75rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 4px;
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* CONTACT */
+    .contact-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 3rem;
       text-align: center;
+    }
+
+    .contact-box h3 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .contact-box p {
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* DIVIDER */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* MOBILE NAV */
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      nav { padding: 1rem; }
     }
   </style>
 </head>
-  
-<style>
-  body {
-    ...
-  }
-
-  .contacto {
-    text-align: center;
-    margin: 60px auto;
-    padding: 20px;
-    max-width: 400px;
-    background: #1e293b;
-    border-radius: 8px;
-  }
-</style>
-
 <body>
 
-  <div class="container">
+  <!-- NAV -->
+  <nav>
+    <span class="nav-logo">AM.QA</span>
+    <ul class="nav-links">
+      <li><a href="#sobre-mi">Sobre mí</a></li>
+      <li><a href="#habilidades">Habilidades</a></li>
+      <li><a href="#proyectos">Proyectos</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
 
-    <h1>Alexandra Materan</h1>
-    <h2>QA Engineer Junior</h2>
-    
-    <div class="section">
-  <h2>Sobre mí</h2>
-  <p>
-    QA Engineer Junior en formación, construyendo un perfil que combina pensamiento analítico y enfoque en el usuario.
-    Vengo del marketing digital, donde desarrollé atención al detalle, comunicación efectiva y adaptabilidad, habilidades que hoy aplico al testing de software.
-    Tengo experiencia en testing manual web y móvil, API testing con Postman y validación de datos con SQL, además de diseño de test cases y reporte de bugs.</p>
+  <!-- HERO -->
+  <div class="hero" id="sobre-mi">
+    <p class="hero-eyebrow">Disponible para nuevas oportunidades</p>
+    <h1 class="hero-name">Alexandra<br /><span>Materan</span></h1>
+    <p class="hero-role">QA Engineer · Testing Manual &amp; Automatización</p>
+    <p class="hero-bio">
+      QA Engineer con <strong>15 años de trayectoria profesional</strong> y especialización en testing manual y automatizado de aplicaciones web, móviles y APIs REST.
+      Combino pensamiento analítico, atención al detalle y visión de negocio para detectar errores críticos antes de que lleguen al usuario.
+      <br /><br />
+      Formada en <strong>Python · Selenium · pytest · Postman · SQL · Git</strong> con proyectos reales publicados en GitHub.
     </p>
-      🎯 Busco mi primera oportunidad como QA Tester para aportar a la calidad del software y seguir creciendo en el área.
-  </p>
-</div>
-
-    <div class="buttons">
-      <a href="https://www.linkedin.com/in/alexandra-materan/" target="_blank">LinkedIn</a>
-      <a href="https://alexandramateran.github.io/" target="_blank">GitHub</a>
-      <a href="https://drive.google.com/file/d/1X_o4R9ppZnebHPR5SuLrTeHZBW7OwY9h/view?usp=sharing" target="_blank">CV</a>
+    <div class="hero-links">
+      <a href="mailto:alexandrafigueroa02@gmail.com" class="btn btn-primary">Contáctame</a>
+      <a href="https://www.linkedin.com/in/alexandra-materan/" target="_blank" class="btn btn-outline">LinkedIn</a>
+      <a href="https://github.com/AlexandraMateran" target="_blank" class="btn btn-outline">GitHub</a>
+      <a href="https://drive.google.com/file/d/1X_o4R9ppZnebHPR5SuLrTeHZBW7OwY9h/view?usp=sharing" target="_blank" class="btn btn-outline">Ver CV</a>
     </div>
-
-    <div class="section">
-      <h2>Habilidades</h2>
-      <div class="skills">
-        <span>Manual Testing</span>
-        <span>API Testing</span>
-        <span>Postman</span>
-        <span>Jira</span>
-        <span>Test Cases</span>
-        <span>Bug Tracking</span>
-        <span>SQL</span>
-        <span>Agile / Scrum</span>
-      </div>
-    </div>
-
-    <div class="section">
-      <h2>Proyectos QA</h2>
-
-     <div class="project">
-  <h3>Testing de API - Plataforma de Compras</h3>
-  <p><strong>Contexto:</strong> Proyecto enfocado en la validación de endpoints para la gestión de kits y servicios de entrega en una plataforma de compras.</p>
-  <p><strong>Análisis:</strong> Diseñé y ejecuté más de 30 test cases utilizando Postman, incluyendo escenarios positivos, negativos y edge cases. Validé requests y responses de APIs REST, analizando estructuras JSON y comportamientos del sistema.</p>
-  <p><strong>Resultados:</strong> Identifiqué errores en códigos HTTP (400, 404, 500), fallos en validaciones y problemas en la lógica de negocio. Documenté los bugs en Jira de forma clara y estructurada, asegurando su seguimiento y contribuyendo a mejorar la calidad del sistema.</p>
-  <p><strong>Tecnologías:</strong> API Testing · Postman · JSON · Jira · Test Case Design.</p>
-      </div>
-
-      <img src="Postman.R1.png" width="100%">
-      
-      <div class="project">
-        <h3>Testing Funcional – Plataforma de Movilidad</h3>
-        <p><strong>Contexto:</strong> Proyecto enfocado en la validación del flujo completo de reserva de vehículos en una plataforma web, asegurando su correcto funcionamiento en diferentes navegadores.</p>
-  <p><strong>Análisis:</strong> Diseñé y ejecuté casos de prueba funcionales en Chrome y Firefox, validando formularios críticos como métodos de pago y códigos de seguridad. Realicé pruebas de UI para evaluar la interacción, el diseño y la experiencia del usuario en distintos escenarios.</p>
-  <p><strong>Resultados:</strong> Identifiqué errores en validaciones, fallos en la interacción del usuario y problemas en el flujo de reserva. Documenté bugs en Jira con pasos de reproducción, severidad y detalle técnico, contribuyendo a mejorar la estabilidad del sistema antes de su liberación.</p>
-  <p><strong>Tecnologías:</strong> Functional Testing · UI Testing · Cross-Browser Testing · Jira · Test Case Design.</p>
-      </div>
-
-    </div>
-
-    <div class="footer">
-      © 2026 Alexandra Materan | QA Portfolio
-    </div>
-
   </div>
+
+  <hr class="divider" />
+
+  <!-- HABILIDADES -->
+  <section id="habilidades">
+    <p class="section-label">Stack técnico</p>
+    <h2 class="section-title">Habilidades</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <p class="skill-card-title">Testing &amp; QA</p>
+        <div class="skill-tags">
+          <span class="tag">Manual Testing</span>
+          <span class="tag">API Testing</span>
+          <span class="tag">UI Testing</span>
+          <span class="tag">Functional Testing</span>
+          <span class="tag">Regresión</span>
+          <span class="tag">Smoke Testing</span>
+          <span class="tag">Test Cases</span>
+          <span class="tag">Bug Tracking</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <p class="skill-card-title">Automatización</p>
+        <div class="skill-tags">
+          <span class="tag">Python</span>
+          <span class="tag">pytest</span>
+          <span class="tag">Selenium</span>
+          <span class="tag">requests</span>
+          <span class="tag">Page Object Model</span>
+          <span class="tag">WebDriverWait</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <p class="skill-card-title">Herramientas</p>
+        <div class="skill-tags">
+          <span class="tag">Postman</span>
+          <span class="tag">Jira</span>
+          <span class="tag">Git</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">PyCharm</span>
+          <span class="tag">Android Studio</span>
+          <span class="tag">Figma</span>
+          <span class="tag">Chrome DevTools</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <p class="skill-card-title">Base de datos &amp; Backend</p>
+        <div class="skill-tags">
+          <span class="tag">SQL</span>
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">Bash / Linux</span>
+          <span class="tag">SSH</span>
+          <span class="tag">Logs Analysis</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <p class="skill-card-title">Metodologías</p>
+        <div class="skill-tags">
+          <span class="tag">Agile</span>
+          <span class="tag">Scrum</span>
+          <span class="tag">STLC</span>
+          <span class="tag">Control de versiones</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- PROYECTOS -->
+  <section id="proyectos">
+    <p class="section-label">Trabajo real</p>
+    <h2 class="section-title">Proyectos QA</h2>
+    <div class="projects-list">
+
+      <!-- PROYECTO 1 -->
+      <div class="project-card">
+        <div class="project-header">
+          <div>
+            <p class="project-number">01</p>
+            <h3 class="project-title">Automatización de Pruebas Web — Urban Routes</h3>
+            <p class="project-subtitle">Python · Selenium · pytest · Page Object Model · GitHub</p>
+          </div>
+        </div>
+        <div class="project-body">
+          <div>
+            <p class="project-block-label">Desafío</p>
+            <p class="project-block-text">Automatizar el flujo completo de pedido de taxi en una aplicación web, cubriendo desde la selección de ruta hasta la confirmación del servicio.</p>
+          </div>
+          <div>
+            <p class="project-block-label">Proceso</p>
+            <p class="project-block-text">Implementé el patrón Page Object Model separando localizadores, métodos y pruebas. Usé 4+ tipos de localizadores (ID, XPATH, CLASS_NAME, NAME) con WebDriverWait para esperas dinámicas.</p>
+          </div>
+          <div>
+            <p class="project-block-label">Resultado</p>
+            <p class="project-block-text">8 pruebas automatizadas cubriendo el flujo completo. Proyecto publicado en GitHub con README y buenas prácticas de control de versiones.</p>
+          </div>
+        </div>
+        <div class="project-footer">
+          <span class="project-tag">Python</span>
+          <span class="project-tag">Selenium</span>
+          <span class="project-tag">pytest</span>
+          <span class="project-tag">POM</span>
+          <span class="project-tag">Git</span>
+          <span class="project-tag">GitHub</span>
+        </div>
+      </div>
+
+      <!-- PROYECTO 2 -->
+      <div class="project-card">
+        <div class="project-header">
+          <div>
+            <p class="project-number">02</p>
+            <h3 class="project-title">Automatización de Pruebas de API — Urban Grocers</h3>
+            <p class="project-subtitle">Python · pytest · requests · GitHub</p>
+          </div>
+        </div>
+        <div class="project-body">
+          <div>
+            <p class="project-block-label">Desafío</p>
+            <p class="project-block-text">Validar el campo "name" en la creación de kits de productos mediante pruebas automatizadas que cubrieran escenarios positivos, negativos y valores límite.</p>
+          </div>
+          <div>
+            <p class="project-block-label">Proceso</p>
+            <p class="project-block-text">Diseñé funciones reutilizables (positive_assert, negative_assert_code_400) para evitar duplicación de código. Apliqué clases de equivalencia y análisis de valores límite.</p>
+          </div>
+          <div>
+            <p class="project-block-label">Resultado</p>
+            <p class="project-block-text">9 pruebas automatizadas. Identifiqué 4 bugs reales en la API relacionados con validaciones de longitud y tipo de dato. Proyecto publicado en GitHub.</p>
+          </div>
+        </div>
+        <div class="project-footer">
+          <span class="project-tag">Python</span>
+          <span class="project-tag">pytest</span>
+          <span class="project-tag">requests</span>
+          <span class="project-tag">API Testing</span>
+          <span class="project-tag">GitHub</span>
+        </div>
+      </div>
+
+      <!-- PROYECTO 3 -->
+      <div class="project-card">
+        <div class="project-header">
+          <div>
+            <p class="project-number">03</p>
+            <h3 class="project-title">Testing de API REST — Plataforma de Compras</h3>
+            <p class="project-subtitle">Postman · Jira · JSON · Test Case Design</p>
+          </div>
+        </div>
+        <div class="project-body">
+          <div>
+            <p class="project-block-label">Desafío</p>
+            <p class="project-block-text">Validar los endpoints de gestión de kits y servicios de entrega en una plataforma de compras, asegurando que la API respondiera correctamente a diferentes escenarios.</p>
+          </div>
+          <div>
+            <p class="project-block-label">Proceso</p>
+            <p class="project-block-text">Diseñé y ejecuté 30+ test cases en Postman, incluyendo escenarios positivos, negativos y edge cases. Validé requests/responses analizando estructuras JSON y códigos HTTP.</p>
+          </div>
+          <div>
+            <p class="project-block-label">Resultado</p>
+            <p class="project-block-text">Detecté errores en códigos HTTP (400, 404, 500), fallos en validaciones y problemas en lógica de negocio. Bugs documentados en Jira con pasos de reproducción y severidad.</p>
+          </div>
+        </div>
+        <div class="project-footer">
+          <span class="project-tag">Postman</span>
+          <span class="project-tag">API Testing</span>
+          <span class="project-tag">JSON</span>
+          <span class="project-tag">Jira</span>
+          <span class="project-tag">Test Case Design</span>
+        </div>
+      </div>
+
+      <!-- PROYECTO 4 -->
+      <div class="project-card">
+        <div class="project-header">
+          <div>
+            <p class="project-number">04</p>
+            <h3 class="project-title">Validación de Base de Datos &amp; Análisis de Logs</h3>
+            <p class="project-subtitle">SQL · PostgreSQL · Bash · Linux · SSH</p>
+          </div>
+        </div>
+        <div class="project-body">
+          <div>
+            <p class="project-block-label">Desafío</p>
+            <p class="project-block-text">Validar la integridad de datos en una base de datos de taxis y analizar logs de servidor para identificar errores en producción.</p>
+          </div>
+          <div>
+            <p class="project-block-label">Proceso</p>
+            <p class="project-block-text">Ejecuté consultas SQL complejas (JOINs, GROUP BY, HAVING, CASE, CAST). Accedí a servidor remoto via SSH y analicé logs usando grep, cat y redirección de salida.</p>
+          </div>
+          <div>
+            <p class="project-block-label">Resultado</p>
+            <p class="project-block-text">Validé integridad de datos en múltiples tablas. Aislé errores 400 y 500 en archivos separados organizados por tipo de error para facilitar el debugging del equipo.</p>
+          </div>
+        </div>
+        <div class="project-footer">
+          <span class="project-tag">SQL</span>
+          <span class="project-tag">PostgreSQL</span>
+          <span class="project-tag">Bash</span>
+          <span class="project-tag">Linux</span>
+          <span class="project-tag">SSH</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="contact-box">
+      <h3>¿Buscas una QA Engineer?</h3>
+      <p>Estoy disponible para nuevas oportunidades. Me encantaría conocer tu equipo y el producto que estás construyendo.</p>
+      <div class="contact-links">
+        <a href="mailto:alexandrafigueroa02@gmail.com" class="btn btn-primary">Escríbeme un email</a>
+        <a href="https://www.linkedin.com/in/alexandra-materan/" target="_blank" class="btn btn-outline">LinkedIn</a>
+        <a href="https://github.com/AlexandraMateran" target="_blank" class="btn btn-outline">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Alexandra Materan · Cali, Colombia · QA Engineer</p>
+  </footer>
 
 </body>
 </html>
-   <div class="section contacto">
-  <h2>Contacto</h2>
-  <p><strong>Email:</strong> alexandrafigueroa02@gmail.com</p>
-  <p><strong>Ubicación:</strong> Cali, Colombia</p>
-</div>
-
